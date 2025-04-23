@@ -104,6 +104,34 @@ Sample Output 3:
 
 
 
+solun
+
+
+
+def main():
+    n = int(input("Enter no. of employees: "))
+    if n <= 0:
+        print("Invalid input")
+        return
+
+    employees = []
+    for _ in range(n):
+        name = input("Enter name: ")
+        sales = int(input("Enter no of products sold: "))
+        city = input("Enter city: ")
+        employees.append({'name': name, 'sales': sales, 'city': city})
+
+    grouped = {}
+    for emp in employees:
+        city = emp['city']
+        if city not in grouped:
+            grouped[city] = []
+        grouped[city].append({'name': emp['name'], 'sales': emp['sales']})
+
+    print(grouped)
+
+
+
 
 
 
@@ -238,6 +266,58 @@ Invalid Input
 
 
 
+def main():
+    n = int(input("Enter the number of participants: "))
+    if n <= 0:
+        print("Invalid Input")
+        return
+
+    participant_prefs = {}
+    event_participants = {}
+
+    for _ in range(n):
+        name = input("Enter participant name: ")
+        input("Enter participant email: ")
+        input("Enter registration date (YYYY-MM-DD): ")
+        prefs = input("Enter participant preferences separated by spaces (Workshop/Presentation/Hackathon/Quiz): ").split()
+
+        participant_prefs[name] = prefs
+
+        for event in prefs:
+            if event not in event_participants:
+                event_participants[event] = []
+            event_participants[event].append(name)
+
+    print("\nRegistered Successfully!")
+    print("Participant Preferences:", participant_prefs)
+    print("Event Participants:", event_participants)
+
+main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -361,6 +441,44 @@ No common electives found
 
 
 
+def main():
+    n = int(input("Enter the no. of students: "))
+    if n <= 0:
+        print("Invalid input")
+        return
+
+    electives_list = []
+    electives_count = {}
+
+    for _ in range(n):
+        electives = input("Enter electives: ").split('/')
+        electives = [e.strip() for e in electives]
+        electives_list.append(electives)
+        for subject in electives:
+            electives_count[subject] = electives_count.get(subject, 0) + 1
+
+    print("\nStudent electives list:", electives_list)
+    print("\nElectives count:", electives_count)
+
+    # Find common electives
+    common = set(electives_list[0])
+    for lst in electives_list[1:]:
+        common &= set(lst)
+
+    if common:
+        print("\nCommon elective:", sorted(list(common)))
+    else:
+        print("\nNo common electives found")
+
+main()
+
+
+
+
+
+
+
+
 
 
 
@@ -453,6 +571,73 @@ Here's the list of student details sorted with respect to name :
 {'Name': 'Ann', 'Age': 20}
 {'Name': 'Brad', 'Age': 25} 
 {'Name': 'Joel', 'Age': 22}
+
+
+
+
+
+
+
+def main():
+    students = []
+
+    while True:
+        try:
+            count = int(input("Enter the no of student details to be created: "))
+        except ValueError:
+            print("Invalid Input")
+            break
+
+        if count <= 0:
+            print("Invalid Input")
+            for s in students:
+                print(s)
+            break
+
+        for _ in range(count):
+            name = input("Name : ")
+            age = int(input("Age : "))
+            if age <= 10 or age >= 80:
+                print("Invalid Input")
+                for s in students:
+                    print(s)
+                return
+            students.append({'Name': name, 'Age': age})
+
+        choice = input("Do you want to add more students' details to the list of dictionaries? If yes, press 1, else press 0: ")
+        if choice == '1':
+            continue
+        elif choice == '0':
+            print("\nHere's the list of student details :")
+            for s in students:
+                print(s)
+            sorted_students = sorted(students, key=lambda x: x['Name'])
+            print("\nHere's the list of student details sorted with respect to name :")
+            for s in sorted_students:
+                print(s)
+            break
+        else:
+            print("Invalid Input")
+            print("\nHere's the list of student details :")
+            for s in students:
+                print(s)
+            sorted_students = sorted(students, key=lambda x: x['Name'])
+            print("\nHere's the list of student details sorted with respect to name :")
+            for s in sorted_students:
+                print(s)
+            break
+
+main()
+
+
+
+
+
+
+
+
+
+
 
 
 

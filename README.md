@@ -1,192 +1,461 @@
 Description
- 
- 
- 
- Hotel Reservation - Total Bill Calculation
- 
-Click here to download the Code Skeleton
- 
-Golden Star Hills is one of the most widely used resorts in the state. They need a system that can be configured easily to adapt to the changes they bring in with the charges for the room type and need to calculate the total bill for their customers. You being their software consultant have been approached by them to develop a software system which can be used for managing their business.  
-Service: Calculating the Total bill for each customer
-Create an Invoice class with the below private attributes
+Objective:
 
- 
-reservationId
-	
-String
+To work with Collections - Lists and Dictionaries
 
 
-stayDaysCount
-	
-int
 
 
-roomCharge
-	
-RoomChargeInfo
+Concept Explanation: 
+
+A list is a data structure in Python that is a mutable, or changeable, ordered sequence of elements. 
+Dictionaries are mutable data structures in Python that store the value in key: value pairs 
+Concept Implementation: 
+
+Lists are used to store dictionaries consisting of each employee's name and products sold. 
+The dictionary is used to store each cities name and its corresponding employee names and products sold. 
+
+Scenario:
+
+The sales department in an FMCG company is trying to collect data on the number of products sold, the sales worker's name, and the target city i.e. the city in which a certain product has been sold. Ms. Agnes is the sales department head and she wants the details to be confidential. The company has approached you to help them in building software that would fulfill the requirements mentioned below.
 
 
-gstPercentage
-	
-int
- 
-Include getter and setter methods for all the above attributes. The invoice class should be registered as a bean with the spring container via XML file.
-The value for gstPercentage is populated in the charges.properties file as key=value pair. Fetch the values from the property file and assign them to the private attribute gstPercentage in the Invoice class. The values for these attributes should be injected via setter based injection. Do not change the value of gstPercentage in the property file.
-Note: GST 12 percentage
-Create a RoomChargeInfo class with the below private attribute
-roomCharges
-	
-Map<String, Float>
- 
-Include getter and setter methods for the above attribute.
-The Map should be configured in the beans.xml file with the below key-values.
-Key-Room Type (String)
-	
-Value-Room Charge (Float)
+
+Guidelines:
+
+Collect details on the total number of employees from the user. If the number is less than or equal to 0, print "Invalid input" and stop the program execution.
+Get the inputs from user for sales employee's name, the number of products sold in the city assigned to them, and the city he/she has been assigned. Ensure the no. of products sold is an integer.
+Store all the details as a list of dictionaries where each dictionary consists of 'name', 'sales', and 'city' as keys and their respective user-entered details as their values. 
+E.g: [{'name': 'ash', 'sales': 50, 'city': 'Delhi'}, {'name': 'trace', 'sales': 10, 'city': 'Mumbai'}, {'name': 'trevor', 'sales': 20, 'city': 'Mumbai'}]
+
+Iterate the above list of dictionaries and group the details such as sales employee name and the no. of products sold by them based on the target city. For this, create a dictionary that consists of city name as the key and its value should be a list of dictionaries. In the list of dictionaries, each dictionary should consist of keys 'name', and 'sales', and values should be the respective employee name and the no. of products sold in the corresponding city.
+For the list of dictionaries consisting of the user input details given in the above example, the dictionary obtained by grouping details based on city name should be as follows:  {'Delhi': [{'name': 'ash', 'sales': 50}], 'Mumbai': [{'name': 'trace', 'sales': 10}, {'name': 'trevor', 'sales': 20}]}
+If the value of 'city' is not a key in the grouped dictionary, create a new key-value pair in the dictionary. Otherwise, append the value of the existing key to the list of dictionaries.
+Display the dictionary.
+Refer to Sample input and output statements for more clarity.
 
 
-Deluxe
-	
-3500.0
+Sample Input 1:
+
+Enter no. of employees: 3
+
+Enter name: Alice
+
+Enter no of products sold: 1500
+
+Enter city: Oregon
+
+Enter name: Milly
+
+Enter no of products sold: 4500
+
+Enter city: California
+
+Enter name: Jones
+
+Enter no of products sold: 780
+
+Enter city: Oregon
+
+Sample Output 1:
+
+{'Oregon': [{'name': 'Alice', 'sales': 1500}, {'name': 'Jones', 'sales': 780}], 'California': [{'name': 'Milly', 'sales': 4500}]}
 
 
-UltraDeluxe
-	
-7000.0
+
+Sample Input 2:
+
+Enter no. of employees: 0
+
+Sample Output 2:
+
+Invalid input
 
 
-SuperDeluxe
-	
-8750.0
- 
-Note: Only for these roomType GST charges need to be added to the billAmount. The keys are case-sensitive.
-RoomChargeInfo is used for only particular property, so RoomChargeInfo should be declared as an inner bean in the Invoice class. RoomChargeInfo should be injected into the Invoice via setter based Injection.
-Overview of Service 1:
-Write a method public double calculateTotalBill (Invoice invoiceObj, String roomType) in InvoiceBO class that accepts a string and Invoice Object. The string contains the type of room. Based on the roomType, GST needs to be added to the total bill and return the billAmount. If the type of room is not available on the Map then there is no GST charge.
-The formula to calculate the total bill amount is given below:
-If the type of room is available in the map then the calculation should be as follows,
-total = stayDaysCount  *  roomCharge;
-totalBillAmount = total + (total * gstPercentage / 100.0);
-If the type of room is not available on the map then the calculation should be as follows,
-totalBillAmount = stayDaysCount * 1000;
-Technical Specifications:
-Component Name
-	
-Method Name
-	
-Input
-	
-Output
-	
-Exception
+
+Sample Input 3:
+
+Enter no. of employees:2
+
+Enter name: Shea
+
+Enter no of products sold: 1000
+
+Enter city: Arizona
+
+Enter name: Shawn
+
+Enter no of products sold: 2000
+
+Enter city: Arizona
+
+Sample Output 3:
+
+{'Arizona': [{'name': 'Shea', 'sales': 1000}, {'name': 'Shawn', 'sales': 2000}]}
 
 
-InvoiceService
-	
-calculateTotalBill()
-	
-String reservationId,
-int stayDaysCount,
-String roomType
-	
-double - totalBillAmount
-	
-InvalidStayDaysCountException
-This Exception is to be  thrown back to the Driver class
 
 
-InvoiceBO
-	
-calculateTotalBill()
-	
-Invoice invoiceObj, String roomType
-	
-double - totalBillAmount
-	
- 
 
 
-beans.xml
-	
-Contains all the xml configurations related to Service 
-	
- 
-	
- 
-	
- 
- 
-Create a class called Driver with the main method and get the inputs like reservationId, number of days stayed by the customer and type of room from the user. Get the InvoiceService class object from the beans.xml file and invoke the calculateTotalBill (String reservationId, int stayDaysCount, String roomType) which is in the InvoiceService class to perform the implementation. Display the total bill amount which is returned from the calculateTotalBill method in InvoiceBO class.
-Business Rules & Validations:
-In InvoiceService class include the following private attribute and inject via setter based injection.
-private InvoiceBO invoiceBoObj;
- Include getter and setter methods for the above attribute.
- 
-In this InvoiceService class, the method public double calculateTotalBill (String reservationId, int stayDaysCount, String roomType) accepts reservationId, stayDaysCount, and roomType as the arguments. Validate the stayDaysCount, if the stay days count is within the range,  get the Invoice object from the beans.xml file and set the stayDaysCount and reservationId in that object.
-In case the stayDaysCount is not within the range, a user-defined Exception InvalidStayDaysCountException should be thrown with the message "Days Stayed is not valid".
-Days stayed should be greater than zero (0) and less than thirty (30).
-If the days stayed are within the given range, call the method calculateTotalBill (Invoice invoiceObj, String roomType) in InvoiceBO class and perform the implementation.
-Limitations and Constraints
-1.      Invoice and RoomChargeInfo class should be in com.spring.model package.
-2.      InvalidStayDaysCountException class should be in com.spring.exception package.
-3.      InvoiceService class should be in com.spring.service package.
-4.      InvoiceBO class should be in com.spring.bo package.
-5.      Driver class should be in com.spring.main package.
-6.      All of the above mentioned java classes to be configured as beans in the beans.xml file
-7.      RoomChargeInfo should be declared as an inner bean in the Invoice class and should be injected into Invoice via setter based Injection.
-8.      InvoiceService should be configured as bean inside beans.xml.
-9.      InvoiceBO should be configured as bean inside beans.xml with the bean id as "inBoObj"
-10.  InvoiceBO should be injected via setter based injection inside InvoiceService
-11.  The room charge for each room type should be declared as a MAP in the beans.xml and should be injected using a setter.
-12.  charges.properties file will be provided with the value for GST percentage fetch and assign values for the gstPercentage attribute in the Invoice class via setter based injection. To read this property file use <context:property-placeholder location="classpath:charges.properties" /> in the beans.xml file.
-13.  DO NOT change the values in the charges.properties file
-14.  Use ONLY beans.xml for all configurations.
- 
-Sample Input Output 1:
-Enter the Reservation ID:
-GSH101
-Enter the total days stayed:
-3
-Enter the type of room stayed:
-Deluxe  // Room type is available on the Map hence GST is Applicable
-Total amount to be paid:11760.0
 
 
-Sample Input Output 2:
-Enter the Reservation ID:
-GSH102
-Enter the total days stayed:
-2
-Enter the type of room stayed:
-UltraDeluxe  // Room type is available in the Map hence GST is Applicable
-Total amount to be paid:15680.0
 
 
-Sample Input Output 3:
-Enter the Reservation ID:
-GSH103
-Enter the total days stayed:
-31 // Days Stayed is not in a given range
-Enter the type of room stayed:
-UltraDeluxe  // Room type is available in the Map hence GST is Applicable
-Days Stayed is not valid
 
 
-Sample Input Output 4:
-Enter the Reservation ID:
-GSH107
-Enter the total days stayed:
-2
-Enter the type of room stayed:
-Normal  // Room type is not available on the Map hence NO GST
-Total amount to be paid:2000.0
 
 
-Sample Input Output 5:
-Enter the Reservation ID:
-GSH112
-Enter the total days stayed:
-4
-Enter the type of room stayed:
-SuperDeluxe  // Room type is available in the Map hence GST is Applicable
-Total amount to be paid:39200.0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Description
+Objective:
+
+To work with Collections - Lists and Dictionaries
+
+
+
+
+Concept Explanation: 
+
+A list is a data structure in Python that is a mutable, or changeable, ordered sequence of elements. 
+Dictionaries are mutable data structures in Python that store the value in key: value pairs 
+Concept Implementation: 
+
+Here, the dictionary is used to store the event preference of each participant and the names of participants for each event. 
+Lists are used to store the names of participants for each event and the events preferred by each participant. 
+
+Scenario:
+
+
+As a data analyst working on an Event Management System, you are required to create a Python program to simulate participant registration and preference updates for an event. The program will receive input from the user for an event of participants, including their names, emails, registration dates, and event preferences. It will then process this information and display the participant preferences and participants for each event.
+
+
+Guidelines:
+
+
+Prompt the user to input the number of participants for the event. If the number of participants is zero or negative, then display the message "Invalid Input" and stop the program.
+For each participant, request the following information:
+Participant name
+Participant email
+Registration date (in YYYY-MM-DD format)
+Event preferences separated by spaces (Workshop/Presentation/Hackathon/Quiz)
+Update participant preferences in a dictionary. The dictionary should consist of the participant's name as the key and value should be the list of events preferred by the respective participant. 
+Update event participants in a dictionary. The dictionary should consist of the event name as the key and the value should be the list of names of participants who have preferred the respective event.
+Display the results for the event, including:
+Participant preferences for each participant.
+Participants for each event.
+
+
+Note: 
+
+Refer the sample input and output statements for more clarifications. 
+In the Sample Input / Output provided, the highlighted text in bold corresponds to the input given by the user, and the rest of the text represents the output.
+
+
+
+Sample Input / Output 1:
+
+Enter the number of participants: 3
+
+Enter participant name: Emma
+
+Enter participant email: emma@gmail.com
+
+Enter registration date (YYYY-MM-DD): 2023-12-15
+
+Enter participant preferences separated by spaces (Workshop/Presentation/Hackathon/Quiz): Workshop Quiz
+
+
+
+Enter participant name: Daniel
+
+Enter participant email: daniel@gmail.com
+
+Enter registration date (YYYY-MM-DD): 2023-12-15
+
+Enter participant preferences separated by spaces (Workshop/Presentation/Hackathon/Quiz): Presentation Hackathon
+
+
+
+Enter participant name: Sophia
+
+Enter participant email: sophia@gmail.com
+
+Enter registration date (YYYY-MM-DD): 2023-12-16
+
+Enter participant preferences separated by spaces (Workshop/Presentation/Hackathon/Quiz): Workshop Hackathon
+
+
+
+Registered Successfully!
+
+Participant Preferences: {'Emma': ['Workshop', 'Quiz'], 'Daniel': ['Presentation ', 'Hackathon'], 'Sophia': ['Workshop', 'Hackathon']}
+
+Event Participants: {'Workshop': ['Emma', 'Sophia'] 'Quiz': ['Emma'], 'Presentation': ['Daniel'], 'Hackathon': ['Sophia', 'Daniel']}
+
+
+
+Sample Input / Output 2:
+
+Enter the number of participants: 0
+
+Invalid Input
+
+
+
+Sample Input / Output 3:
+
+Enter the number of participants: -1
+
+Invalid Input
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Objective:
+
+To work with Collections - Lists and Dictionaries
+
+
+
+
+Concept Explanation: 
+
+A list is a data structure in Python that is a mutable, or changeable, ordered sequence of elements. 
+Dictionaries are mutable data structures in Python that store the value in key: value pairs 
+Concept Implementation: 
+
+A list is used to store each student's electives as a list of lists. 
+The dictionary is used to store each elective's count. 
+
+Scenario:
+
+ABC School is collecting data on the electives preferred by students in grade 11. They want to filter the elective(s) that are preferred by all students. Help them write a program in Python to fulfill their requirements. As a software intern, you are assigned with the following tasks:
+
+Take input from the user for the number of students. If the number of students is less than or equal to 0, display the message 'Invalid input' and terminate the program. Otherwise, for the specified number, electives chosen by each student should be entered as an input string with slash ('/') separated values. 
+Store the electives preference of each student in the format of a list of lists and display them.
+Display the dictionary which consists of the subject name as its key and the number of times the subject has been preferred by the students as value.
+Find the subjects that are common among all students and display the list of common subjects.
+If there is/are no common subject(s) among all the students, display the message "No common electives found"
+Refer to the sample input and output statements for more clarity.
+
+
+Sample Input 1:
+
+Enter the no. of students: 3
+
+Enter electives: Maths/Physics/Chemistry
+
+Enter electives: Biology/History/Physics
+
+Enter electives: Economics/Computer Science/Physics
+
+Sample Output 1:
+
+Student electives list: [['Maths', 'Physics', 'Chemistry'], ['Biology', 'History', 'Physics'], ['Economics', 'Computer Science', 'Physics']]
+
+Electives count: {'Chemistry': 1, 'Maths': 1, 'Physics': 3, 'History': 1, 'Biology': 1, 'Economics': 1, 'Computer Science': 1}
+
+Common elective: ['Physics']
+
+
+
+Sample Input 2:
+
+Enter the no. of students:0
+
+Sample Output 2:
+
+Invalid input
+
+
+
+Sample Input 3:
+
+Enter the no. of students: 3
+
+Enter electives: Maths/Physics/Chemistry
+
+Enter electives: Biology/Maths/Physics
+
+Enter electives: Physics/Maths/Hindi
+
+Sample Output 3:
+
+Student electives list: [['Maths', 'Physics', 'Chemistry'], ['Biology', 'Maths', 'Physics'], ['Physics', 'Maths', 'Hindi']]
+
+Electives count: {'Maths': 3, 'Physics': 3, 'Chemistry': 1, 'Biology': 1, 'Hindi': 1}
+
+Common elective: ['Maths', 'Physics']
+
+
+
+Sample Input 4:
+
+Enter the no. of students:3
+
+Enter electives: Maths/History/Physics
+
+Enter electives: Chemistry/Maths/Physics
+
+Enter electives: Chemistry/Biology/History
+
+Sample Output 4:
+
+
+Student electives list: [['Maths', 'History', 'Physics'], ['Chemistry', 'Maths', 'Physics'], ['Chemistry', 'Biology', 'History']]
+
+Electives count: {'History': 2, 'Physics': 2, 'Maths': 2, 'Chemistry': 2, 'Biology': 1}
+
+No common electives found
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Objective: 
+
+To work with Collections - Lists and Dictionaries
+
+
+
+
+Concept Explanation: 
+
+A list is a data structure in Python that is a mutable, or changeable, ordered sequence of elements. 
+Dictionaries are mutable data structures in Python that store the value in key: value pairs 
+Concept Implementation: 
+
+Lists are used to store dictionaries consisting of each student's name and age.
+The dictionary is used to store each student's name and age.
+
+Scenario:
+
+A renowned training school enrolls students for their new training program.  The school admin team wants to obtain the names of the students and their ages and store the same in a list of dictionaries using Python.    They also want to view this list of dictionaries in the sorted order of the students' names.   Help them to write the program in Python.
+
+
+Guidelines : 
+
+1. If the no. of student details to be created, is entered as zero or negative number, then display the message "Invalid Input" and also display the contents of the dictionary (key-value pairs) if any.
+
+2. When you want to add more student details to the list, you have to enter '1' otherwise, you need to enter '0'.  If you enter '1', the program should continue asking the student details to be added or if you enter '0' then display the list of dictionaries before and after sorting by name.  Refer to the sample input and output for more details.  If the choice is not '0' or '1',  then display the message "Invalid Input" followed by the list of dictionaries before and after sorting by name.
+
+3. If the age of the student entered is <=10 and >=80, then display the message "Invalid Input" and display the contents of the dictionary (key-value pairs) if any. 
+
+4. The highlighted text in sample input and output statements correspond to the input whereas the rest corresponds to the output.
+
+
+
+Sample Input and Output:
+
+Enter the no of student details to be created: 2
+Name : Angelina
+Age : 22
+Name : Brad
+Age : 25
+Do you want to add more students' details to the list of dictionaries? If yes, press 1, else press 0: 1
+Enter the no of student details to be created: 2
+Name : Ann
+Age : 20
+Name : Joel
+Age : 22
+Do you want to add more students' details to the list of dictionaries? If yes, press 1, else press 0: 0
+
+Here's the list of student details :
+
+{'Name': 'Angelina', 'Age': 22} 
+{'Name': 'Brad', 'Age': 25} 
+{'Name': 'Ann', 'Age': 20} 
+{'Name': 'Joel', 'Age': 22} 
+
+Here's the list of student details sorted with respect to name :
+{'Name': 'Angelina', 'Age': 22}
+{'Name': 'Ann', 'Age': 20}
+{'Name': 'Brad', 'Age': 25} 
+{'Name': 'Joel', 'Age': 22}
+
+
+
+
+
+   
